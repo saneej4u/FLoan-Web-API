@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="Models\" />
+    <Folder Include="Data\" />
+    <Folder Include="Dtos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190415182501_second.cs" />
+    <Compile Remove="Migrations\20190415182501_second.Designer.cs" />
+    <Compile Remove="Migrations\20190415183130_Third.cs" />
+    <Compile Remove="Migrations\20190415183130_Third.Designer.cs" />
+    <Compile Remove="Migrations\20190310131245_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190310131245_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190415183817_SecondB.Designer.cs" />
+    <Compile Remove="Migrations\20190415183817_SecondB.cs" />
+  </ItemGroup>
+</Project>
