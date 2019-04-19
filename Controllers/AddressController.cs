@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FLoan.System.Web.API.Data;
+using FLoan.System.Web.API.DTO;
 using FLoan.System.Web.API.Dtos;
+using FLoan.System.Web.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,10 +17,12 @@ namespace FLoan.System.Web.API.Controllers
     {
 
         private readonly IAddressRepository _addressRepo;
+        private readonly ICustomerRepository _customerRepo;
 
-        public AddressController(IAddressRepository repo)
+        public AddressController(IAddressRepository repo, ICustomerRepository customerRepo)
         {
             this._addressRepo = repo;
+            this._customerRepo = customerRepo;
         }
 
         // GET: api/values
@@ -29,8 +33,10 @@ namespace FLoan.System.Web.API.Controllers
 
             var addressesDto = new List<AddressForDisplayDto>();
 
+
             foreach (var address in addresses)
             {
+                Customer cu = await this._customerRepo.GetSingle(address.CustomerId);
 
                 var addressDto = new AddressForDisplayDto()
                 {
@@ -38,15 +44,15 @@ namespace FLoan.System.Web.API.Controllers
                     AddressLine1 = address.AddressLine1,
                     AddressLine2 = address.AddressLine2,
                     Postcode = address.Postcode,
-                    Street = address.Street,
-                    Customer= address.Customer
+                    Street = address.Street
+                    
 
                 };
 
                 addressesDto.Add(addressDto);
             }
-
-            return Ok(addressesDto);
+            
+            return Ok(addresses);
         }
 
         // GET api/values/5
@@ -78,8 +84,27 @@ namespace FLoan.System.Web.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody] AddressForCreationDto addressForCreationDto)
         {
+            if (await this._customerRepo.GetSingle(addressForCreationDto.CustomerId)==null)
+            {
+                return BadRequest();
+            }
+
+            var address = new Address
+            {
+                AddressLine1 = addressForCreationDto.AddressLine1,
+                AddressLine2 = addressForCreationDto.AddressLine2,
+                Street = addressForCreationDto.Street,
+                Town = addressForCreationDto.Town,
+                Postcode = addressForCreationDto.Postcode,
+                CustomerId = addressForCreationDto.CustomerId
+
+            };
+
+            await _addressRepo.Create(address);
+
+            return Ok(addressForCreationDto);
         }
 
         // PUT api/values/5

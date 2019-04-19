@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using FLoan.System.Web.API.Models;
+
 namespace FLoan.System.Web.API.Dtos
 {
     public class CustomerForDisplayDto
@@ -12,5 +15,10 @@ namespace FLoan.System.Web.API.Dtos
         public string Email { get; set; }
         public string Mobile { get; set; }
         public string Telephone { get; set; }
+        public ICollection<Address> Addresses { get; set; }
+        public ICollection<Bank> Banks { get; set; }
+        public ICollection<Income> Incomes { get; set; }
+        public ICollection<Agreement> Agreements { get; set; }
+
     }
 }

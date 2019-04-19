@@ -2,28 +2,36 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FLoan.System.Web.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLoan.System.Web.API.Data
 {
     public class AddressRepository : IAddressRepository
     {
-        public AddressRepository() 
+        private readonly DataContext _context;
+
+        public AddressRepository(DataContext context)
         {
+            this._context = context;
         }
 
-        public Task<Address> Create(Address address)
+
+        public async Task<Address> Create(Address address)
         {
-            throw new NotImplementedException();
+            await this._context.Addresses.AddAsync(address);
+            await this._context.SaveChangesAsync();
+
+            return address;
         }
 
-        public Task<List<Address>> GetAll()
+        public async Task<List<Address>> GetAll()
         {
-            throw new NotImplementedException();
+            return await this._context.Addresses.ToListAsync();
         }
 
-        public Task<Address> GetSingle(int addressId)
+        public async Task<Address> GetSingle(int addressId)
         {
-            throw new NotImplementedException();
+            return await this._context.Addresses.FirstOrDefaultAsync(x => x.AddressId == addressId);
         }
     }
 }
