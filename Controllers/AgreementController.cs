@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FLoan.System.Web.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/agreement")]
     public class AgreementController : Controller
     {
         // GET: api/values
