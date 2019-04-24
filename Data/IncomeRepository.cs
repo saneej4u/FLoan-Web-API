@@ -2,28 +2,37 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FLoan.System.Web.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLoan.System.Web.API.Data
 {
     public class IncomeRepository :IIncomeRepository
     {
-        public IncomeRepository()
+
+        private readonly DataContext _context;
+
+        public IncomeRepository(DataContext context)
         {
+            this._context = context;
         }
 
-        public Task<Income> Create(Income income)
+
+        public async Task<Income> Create(Income income)
         {
-            throw new NotImplementedException();
+            await this._context.Incomes.AddAsync(income);
+            await this._context.SaveChangesAsync();
+
+            return income;
         }
 
-        public Task<List<Income>> GetAll()
+        public async Task<List<Income>> GetAll()
         {
-            throw new NotImplementedException();
+            return await this._context.Incomes.ToListAsync();
         }
 
-        public Task<Income> GetSingle(int incomeId)
+        public async Task<Income> GetSingle(int incomeId)
         {
-            throw new NotImplementedException();
+            return await this._context.Incomes.FirstOrDefaultAsync(x => x.IncomeId == incomeId);
         }
     }
 }

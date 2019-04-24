@@ -12,7 +12,7 @@ namespace FLoan.System.Web.API.Data
 
         Task<List<Bank>> GetAll();
 
-        Task<Address> Create(Bank bank);
+        Task<Bank> Create(Bank bank);
 
     }
 }

@@ -36,8 +36,6 @@ namespace FLoan.System.Web.API.Controllers
 
             foreach (var address in addresses)
             {
-                Customer cu = await this._customerRepo.GetSingle(address.CustomerId);
-
                 var addressDto = new AddressForDisplayDto()
                 {
                     AddressId = address.AddressId,
@@ -52,7 +50,7 @@ namespace FLoan.System.Web.API.Controllers
                 addressesDto.Add(addressDto);
             }
             
-            return Ok(addresses);
+            return Ok(addressesDto);
         }
 
         // GET api/values/5

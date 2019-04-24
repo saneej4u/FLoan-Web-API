@@ -2,28 +2,38 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FLoan.System.Web.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLoan.System.Web.API.Data
 {
     public class BankRepository :IBankRepository
     {
-        public BankRepository()
+
+        private readonly DataContext _context;
+
+        public BankRepository(DataContext context)
         {
+            this._context = context;
         }
 
-        public Task<Address> Create(Bank bank)
+
+
+        public async Task<Bank> Create(Bank bank)
         {
-            throw new NotImplementedException();
+            await this._context.Banks.AddAsync(bank);
+            await this._context.SaveChangesAsync();
+
+            return bank;
         }
 
-        public Task<List<Bank>> GetAll()
+        public async Task<List<Bank>> GetAll()
         {
-            throw new NotImplementedException();
+            return await this._context.Banks.ToListAsync();
         }
 
-        public Task<Bank> GetSingle(int bankId)
+        public async Task<Bank> GetSingle(int bankId)
         {
-            throw new NotImplementedException();
+            return await this._context.Banks.FirstOrDefaultAsync(x => x.BankId == bankId);
         }
     }
 }

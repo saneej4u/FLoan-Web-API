@@ -43,7 +43,13 @@ namespace FLoan.System.Web.API.Controllers
                     Mobile = customer.Mobile,
                     Telephone = customer.Telephone,
                     Title = customer.Title,
-                    DateTimeCreated = customer.DateTimeCreated
+                    DateTimeCreated = customer.DateTimeCreated,
+                    Addresses= customer.Addresses,
+                    Agreements= customer.Agreements,
+                    Banks= customer.Banks,
+                    Incomes = customer.Incomes
+                    
+                    
 
                 };
 

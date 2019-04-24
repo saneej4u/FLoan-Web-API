@@ -17,7 +17,7 @@ namespace FLoan.System.Web.API.Data
 
         public async Task<List<Customer>> GetAll()
         {
-          return  await this._context.Customers.ToListAsync();
+          return  await this._context.Customers.Include(x=>x.Addresses) .ToListAsync();
         }
 
         public async Task<Customer> GetSingle(int customerId)
