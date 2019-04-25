@@ -3,9 +3,9 @@ using FLoan.System.Web.API.Models;
 
 namespace FLoan.System.Web.API.Dtos
 {
-    public class IncomeForDisplayDto
+    public class IncomeDto
     {
-        public IncomeForDisplayDto()
+        public IncomeDto()
         {
         }
 

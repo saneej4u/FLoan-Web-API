@@ -29,12 +29,12 @@ namespace FLoan.System.Web.API.Controllers
         {
             var banks = await this._bankRepo.GetAll();
 
-            var bankDto = new List<BankForDisplayDto>();
+            var bankDto = new List<BankDto>();
 
 
             foreach (var bank in banks)
             {
-                var bDto = new BankForDisplayDto()
+                var bDto = new BankDto()
                 {
                     BankId = bank.BankId,
                      AccountHolderName = bank.AccountHolderName,

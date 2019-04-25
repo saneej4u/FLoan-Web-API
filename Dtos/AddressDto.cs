@@ -3,9 +3,9 @@ using FLoan.System.Web.API.Models;
 
 namespace FLoan.System.Web.API.Dtos
 {
-    public class AddressForDisplayDto
+    public class AddressDto
     {
-        public AddressForDisplayDto()
+        public AddressDto()
         {
         }
 
@@ -17,6 +17,6 @@ namespace FLoan.System.Web.API.Dtos
         public string Postcode { get; set; }
         public DateTime DateTimeCreated { get; set; }
 
-        public Customer Customer { get; set; }
+        // public Customer Customer { get; set; }
     }
 }

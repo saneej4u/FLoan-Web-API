@@ -3,9 +3,9 @@ using FLoan.System.Web.API.Models;
 
 namespace FLoan.System.Web.API.Dtos
 {
-    public class BankForDisplayDto
+    public class BankDto
     {
-        public BankForDisplayDto()
+        public BankDto()
         {
         }
         public int BankId { get; set; }

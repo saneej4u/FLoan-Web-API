@@ -10,19 +10,19 @@ namespace FLoan.System.Web.API.Data
     {
         private readonly DataContext _context;
 
-        public CustomerRepository( DataContext context)
+        public CustomerRepository(DataContext context)
         {
             this._context = context;
         }
 
         public async Task<List<Customer>> GetAll()
         {
-          return  await this._context.Customers.Include(x=>x.Addresses) .ToListAsync();
+            return await this._context.Customers.Include(x => x.Addresses).ToListAsync();
         }
 
         public async Task<Customer> GetSingle(int customerId)
         {
-           return  await this._context.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
+            return await this._context.Customers.Include(x => x.Addresses).FirstOrDefaultAsync(x => x.Id == customerId);
         }
 
         public async Task<Customer> GetCustomerByEmail(string email)
@@ -43,7 +43,7 @@ namespace FLoan.System.Web.API.Data
 
             var customer = await GetCustomerByEmail(email);
 
-            return customer !=null ? true : false;
+            return customer != null ? true : false;
         }
     }
 }

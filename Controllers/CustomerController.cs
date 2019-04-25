@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using FLoan.System.Web.API.Data;
 using FLoan.System.Web.API.DTO;
 using FLoan.System.Web.API.Dtos;
@@ -16,42 +17,26 @@ namespace FLoan.System.Web.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepo;
+        private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerRepository repo)
+        public CustomerController(ICustomerRepository repo, IMapper mapper)
         {
             this._customerRepo = repo;
+            this._mapper = mapper;
         }
 
-        // GET api/values
+
         [HttpGet()]
         public async Task<IActionResult> Get()
         {
-            var customers =  await this._customerRepo.GetAll();
+            var customersFromRepo = await this._customerRepo.GetAll();
 
-            var customerDtos = new List<CustomerForDisplayDto>();
+            var customerDtos = new List<CustomerDto>();
 
-            foreach(var customer in customers)
+            foreach (Customer customer in customersFromRepo)
             {
 
-                var customerDto = new CustomerForDisplayDto()
-                {
-                    CustomerId = customer.Id,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    DateOfBirth = customer.DateOfBirth,
-                    Email = customer.Email,
-                    Mobile = customer.Mobile,
-                    Telephone = customer.Telephone,
-                    Title = customer.Title,
-                    DateTimeCreated = customer.DateTimeCreated,
-                    Addresses= customer.Addresses,
-                    Agreements= customer.Agreements,
-                    Banks= customer.Banks,
-                    Incomes = customer.Incomes
-                    
-                    
-
-                };
+                var customerDto = _mapper.Map<CustomerDto>(customer);
 
                 customerDtos.Add(customerDto);
             }
@@ -60,39 +45,27 @@ namespace FLoan.System.Web.API.Controllers
 
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
+
+        [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int Id)
         {
             var customer = await this._customerRepo.GetSingle(Id);
 
-            if(customer==null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            var model = new CustomerForDisplayDto()
-            {
-                CustomerId = customer.Id,
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                DateOfBirth = customer.DateOfBirth,
-                Email = customer.Email,
-                Mobile = customer.Mobile,
-                Telephone = customer.Telephone,
-                Title = customer.Title,
-                DateTimeCreated = customer.DateTimeCreated
+            var model = _mapper.Map<CustomerDto>(customer);
 
-            };
-
-            return Ok(customer);
+            return Ok(model);
         }
 
-        // POST api/values
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CustomerForCreationDto customerForCreationDto)
         {
-            if(await this._customerRepo.IsCustomerExist(customerForCreationDto.Email))
+            if (await this._customerRepo.IsCustomerExist(customerForCreationDto.Email))
             {
                 return BadRequest();
             }
@@ -107,15 +80,16 @@ namespace FLoan.System.Web.API.Controllers
                 Telephone = customerForCreationDto.Telephone,
                 Title = customerForCreationDto.Title
 
-
             };
 
-           await _customerRepo.Create(customer);
+            // var customer = _mapper.Map<Customer>(customerForCreationDto);
+
+            Customer model = await _customerRepo.Create(customer);
 
             return Ok(customerForCreationDto);
         }
 
-        // PUT api/values/5
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

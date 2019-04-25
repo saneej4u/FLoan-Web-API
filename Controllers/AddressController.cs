@@ -31,25 +31,25 @@ namespace FLoan.System.Web.API.Controllers
         {
             var addresses = await this._addressRepo.GetAll();
 
-            var addressesDto = new List<AddressForDisplayDto>();
+            var addressesDto = new List<AddressDto>();
 
 
             foreach (var address in addresses)
             {
-                var addressDto = new AddressForDisplayDto()
+                var addressDto = new AddressDto()
                 {
                     AddressId = address.AddressId,
                     AddressLine1 = address.AddressLine1,
                     AddressLine2 = address.AddressLine2,
                     Postcode = address.Postcode,
                     Street = address.Street
-                    
+
 
                 };
 
                 addressesDto.Add(addressDto);
             }
-            
+
             return Ok(addressesDto);
         }
 
@@ -64,7 +64,7 @@ namespace FLoan.System.Web.API.Controllers
                 return NotFound();
             }
 
-            var model = new AddressForDisplayDto()
+            var model = new AddressDto()
             {
                 AddressId = address.AddressId,
                 AddressLine1 = address.AddressLine1,
@@ -72,7 +72,7 @@ namespace FLoan.System.Web.API.Controllers
                 Street = address.Street,
                 Town = address.Town,
                 Postcode = address.Postcode,
-                Customer = address.Customer,
+                // Customer = address.Customer,
                 DateTimeCreated = address.DateTimeCreated
 
             };
@@ -84,7 +84,7 @@ namespace FLoan.System.Web.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddressForCreationDto addressForCreationDto)
         {
-            if (await this._customerRepo.GetSingle(addressForCreationDto.CustomerId)==null)
+            if (await this._customerRepo.GetSingle(addressForCreationDto.CustomerId) == null)
             {
                 return BadRequest();
             }
