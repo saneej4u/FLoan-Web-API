@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace FLoan.System.Web.API.Models
 {
     public class Address
@@ -8,7 +10,8 @@ namespace FLoan.System.Web.API.Models
             this.DateTimeCreated = DateTime.Now;
         }
 
-        public int AddressId { get; set; }     
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int AddressId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string Street { get; set; }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace FLoan.System.Web.API.Models
 {
     public class Income
@@ -8,6 +10,7 @@ namespace FLoan.System.Web.API.Models
             this.DateTimeCreated = DateTime.Now;
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IncomeId { get; set; }
         public decimal MonthlySalary { get; set; }
         public decimal OtherIncome { get; set; }

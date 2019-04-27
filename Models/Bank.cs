@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace FLoan.System.Web.API.Models
 {
     public class Bank
@@ -8,6 +10,8 @@ namespace FLoan.System.Web.API.Models
 
             this.DateTimeCreated = DateTime.Now;
         }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BankId { get; set; }
         public string AccountHolderName { get; set; }
         public string Sortcode { get; set; }
