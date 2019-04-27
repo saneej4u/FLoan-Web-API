@@ -17,12 +17,20 @@ namespace FLoan.System.Web.API.Data
 
         public async Task<List<Customer>> GetAll()
         {
-            return await this._context.Customers.Include(x => x.Addresses).ToListAsync();
+            return await this._context.Customers
+                .Include(x => x.Addresses)
+                .Include(x => x.Banks)
+                .Include(x => x.Incomes)
+                .ToListAsync();
         }
 
         public async Task<Customer> GetSingle(int customerId)
         {
-            return await this._context.Customers.Include(x => x.Addresses).FirstOrDefaultAsync(x => x.Id == customerId);
+            return await this._context.Customers
+                .Include(x => x.Addresses)
+                .Include(x => x.Banks)
+                .Include(x => x.Incomes)
+                .FirstOrDefaultAsync(x => x.Id == customerId);
         }
 
         public async Task<Customer> GetCustomerByEmail(string email)

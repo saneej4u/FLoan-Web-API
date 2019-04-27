@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using FLoan.System.Web.API.Data;
 using FLoan.System.Web.API.DTO;
 using FLoan.System.Web.API.Dtos;
@@ -18,42 +19,25 @@ namespace FLoan.System.Web.API.Controllers
 
         private readonly IAddressRepository _addressRepo;
         private readonly ICustomerRepository _customerRepo;
+        private readonly IMapper _mapper;
 
-        public AddressController(IAddressRepository repo, ICustomerRepository customerRepo)
+        public AddressController(IAddressRepository repo, ICustomerRepository customerRepo, IMapper mapper)
         {
             this._addressRepo = repo;
             this._customerRepo = customerRepo;
+            _mapper = mapper;
         }
 
-        // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             var addresses = await this._addressRepo.GetAll();
 
-            var addressesDto = new List<AddressDto>();
-
-
-            foreach (var address in addresses)
-            {
-                var addressDto = new AddressDto()
-                {
-                    AddressId = address.AddressId,
-                    AddressLine1 = address.AddressLine1,
-                    AddressLine2 = address.AddressLine2,
-                    Postcode = address.Postcode,
-                    Street = address.Street
-
-
-                };
-
-                addressesDto.Add(addressDto);
-            }
+            var addressesDto = _mapper.Map<List<AddressDto>>(addresses);
 
             return Ok(addressesDto);
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int Id)
         {
@@ -64,20 +48,9 @@ namespace FLoan.System.Web.API.Controllers
                 return NotFound();
             }
 
-            var model = new AddressDto()
-            {
-                AddressId = address.AddressId,
-                AddressLine1 = address.AddressLine1,
-                AddressLine2 = address.AddressLine2,
-                Street = address.Street,
-                Town = address.Town,
-                Postcode = address.Postcode,
-                // Customer = address.Customer,
-                DateTimeCreated = address.DateTimeCreated
+            var addressDto = _mapper.Map<AddressDto>(address);
 
-            };
-
-            return Ok(address);
+            return Ok(addressDto);
         }
 
         // POST api/values

@@ -39,6 +39,8 @@ namespace FLoan.System.Web.API
             services.AddCors();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IBankRepository, BankRepository>();
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
