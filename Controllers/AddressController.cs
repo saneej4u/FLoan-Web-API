@@ -53,7 +53,8 @@ namespace FLoan.System.Web.API.Controllers
             return Ok(addressDto);
         }
 
-        // POST api/values
+
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddressForCreationDto addressForCreationDto)
         {
@@ -78,13 +79,13 @@ namespace FLoan.System.Web.API.Controllers
             return Ok(addressForCreationDto);
         }
 
-        // PUT api/values/5
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
