@@ -5,9 +5,6 @@ namespace FLoan.System.Web.API.Dtos
 {
     public class IncomeDto
     {
-        public IncomeDto()
-        {
-        }
 
         public int IncomeId { get; set; }
         public decimal MonthlySalary { get; set; }
@@ -20,6 +17,5 @@ namespace FLoan.System.Web.API.Dtos
         public bool GiveMeLoan { get; set; }
         public DateTime DateTimeCreated { get; set; }
 
-        public Customer Customer { get; set; }
     }
 }

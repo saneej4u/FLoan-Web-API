@@ -21,6 +21,7 @@ namespace FLoan.System.Web.API.Data
                 .Include(x => x.Addresses)
                 .Include(x => x.Banks)
                 .Include(x => x.Incomes)
+                .Include(x => x.Agreements)
                 .ToListAsync();
         }
 
@@ -30,6 +31,7 @@ namespace FLoan.System.Web.API.Data
                 .Include(x => x.Addresses)
                 .Include(x => x.Banks)
                 .Include(x => x.Incomes)
+                .Include(x => x.Agreements)
                 .FirstOrDefaultAsync(x => x.Id == customerId);
         }
 

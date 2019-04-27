@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using FLoan.System.Web.API.Data;
+using FLoan.System.Web.API.Dtos;
+using FLoan.System.Web.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,6 +15,18 @@ namespace FLoan.System.Web.API.Controllers
     [Route("api/agreement")]
     public class AgreementController : Controller
     {
+
+        private readonly IAgreementRepository _agreementRepo;
+        private readonly ICustomerRepository _customerRepo;
+        private readonly IMapper _mapper;
+
+        public AgreementController(IAgreementRepository repo, ICustomerRepository customerRepo, IMapper mapper)
+        {
+            this._agreementRepo = repo;
+            this._customerRepo = customerRepo;
+            this._mapper = mapper;
+        }
+
         // GET: api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -25,10 +41,34 @@ namespace FLoan.System.Web.API.Controllers
             return "value";
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody]AgreementForCreationDto agreementForCreationDto)
         {
+            if (await this._customerRepo.GetSingle(agreementForCreationDto.CustomerId) == null)
+            {
+                return BadRequest();
+            }
+
+            var agreement = new Agreement
+            {
+                IsLoanActivated = agreementForCreationDto.IsLoanActivated,
+                LoanAdvance = agreementForCreationDto.LoanAdvance,
+                LoanAmount = agreementForCreationDto.LoanAmount,
+                LoanBalance = agreementForCreationDto.LoanBalance,
+                LoanStartDate = agreementForCreationDto.LoanStartDate,
+                LoanTerm = agreementForCreationDto.LoanTerm,
+                NextPaymentDate = agreementForCreationDto.NextPaymentDate,
+                PinNumber = agreementForCreationDto.PinNumber,
+                Status = agreementForCreationDto.Status,
+                CustomerId = agreementForCreationDto.CustomerId
+
+            };
+
+            var agreementFromRep = await _agreementRepo.Create(agreement);
+
+            var agreementDto = _mapper.Map<AgreementForCreationDto>(agreement);
+
+            return Ok(agreementDto);
         }
 
         // PUT api/values/5

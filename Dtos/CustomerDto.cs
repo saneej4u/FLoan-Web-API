@@ -18,7 +18,7 @@ namespace FLoan.System.Web.API.Dtos
         public List<AddressDto> Addresses { get; set; }
         public List<BankDto> Banks { get; set; }
         public List<IncomeDto> Incomes { get; set; }
-        public List<Agreement> Agreements { get; set; }
+        public List<AgreementForCreationDto> Agreements { get; set; }
 
     }
 }
