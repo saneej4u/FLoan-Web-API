@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FLoan.System.Web.API.Models
@@ -11,6 +12,7 @@ namespace FLoan.System.Web.API.Models
             this.DateTimeCreated = DateTime.Now;
         }
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 

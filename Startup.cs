@@ -31,7 +31,7 @@ namespace FLoan.System.Web.API
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
-            services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
+            // services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();

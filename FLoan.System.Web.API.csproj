@@ -27,5 +27,7 @@
     <Compile Remove="Migrations\20190310131245_InitialCreate.cs" />
     <Compile Remove="Migrations\20190415183817_SecondB.Designer.cs" />
     <Compile Remove="Migrations\20190415183817_SecondB.cs" />
+    <Compile Remove="Migrations\20190427110706_azureMigration.cs" />
+    <Compile Remove="Migrations\20190427110706_azureMigration.Designer.cs" />
   </ItemGroup>
 </Project>

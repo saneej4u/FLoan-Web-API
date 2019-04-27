@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FLoan.System.Web.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190427110706_azureMigration")]
-    partial class azureMigration
+    [Migration("20190427124331_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
