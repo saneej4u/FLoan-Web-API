@@ -3,25 +3,29 @@ using System;
 using FLoan.System.Web.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FLoan.System.Web.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190415183740_SecondA")]
-    partial class SecondA
+    [Migration("20190427110706_azureMigration")]
+    partial class azureMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085");
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("FLoan.System.Web.API.Models.Address", b =>
                 {
                     b.Property<int>("AddressId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AddressLine1");
 
@@ -47,7 +51,8 @@ namespace FLoan.System.Web.API.Migrations
             modelBuilder.Entity("FLoan.System.Web.API.Models.Agreement", b =>
                 {
                     b.Property<int>("AgreementId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CustomerId");
 
@@ -81,7 +86,8 @@ namespace FLoan.System.Web.API.Migrations
             modelBuilder.Entity("FLoan.System.Web.API.Models.Bank", b =>
                 {
                     b.Property<int>("BankId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountHolderName");
 
@@ -103,7 +109,8 @@ namespace FLoan.System.Web.API.Migrations
             modelBuilder.Entity("FLoan.System.Web.API.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateOfBirth");
 
@@ -129,7 +136,8 @@ namespace FLoan.System.Web.API.Migrations
             modelBuilder.Entity("FLoan.System.Web.API.Models.Income", b =>
                 {
                     b.Property<int>("IncomeId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("CreditBills");
 
@@ -157,7 +165,8 @@ namespace FLoan.System.Web.API.Migrations
             modelBuilder.Entity("FLoan.System.Web.API.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AgreementId");
 

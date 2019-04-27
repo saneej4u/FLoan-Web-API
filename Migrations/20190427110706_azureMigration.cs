@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FLoan.System.Web.API.Migrations
 {
-    public partial class SecondC : Migration
+    public partial class azureMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace FLoan.System.Web.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
@@ -32,7 +33,7 @@ namespace FLoan.System.Web.API.Migrations
                 columns: table => new
                 {
                     AddressId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AddressLine1 = table.Column<string>(nullable: true),
                     AddressLine2 = table.Column<string>(nullable: true),
                     Street = table.Column<string>(nullable: true),
@@ -57,7 +58,7 @@ namespace FLoan.System.Web.API.Migrations
                 columns: table => new
                 {
                     AgreementId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     LoanAmount = table.Column<decimal>(nullable: false),
                     LoanTerm = table.Column<int>(nullable: false),
                     LoanAdvance = table.Column<decimal>(nullable: false),
@@ -86,7 +87,7 @@ namespace FLoan.System.Web.API.Migrations
                 columns: table => new
                 {
                     BankId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccountHolderName = table.Column<string>(nullable: true),
                     Sortcode = table.Column<string>(nullable: true),
                     AccountNumber = table.Column<string>(nullable: true),
@@ -109,7 +110,7 @@ namespace FLoan.System.Web.API.Migrations
                 columns: table => new
                 {
                     IncomeId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     MonthlySalary = table.Column<decimal>(nullable: false),
                     OtherIncome = table.Column<decimal>(nullable: false),
                     MonthlyMortgageOrRent = table.Column<decimal>(nullable: false),
@@ -135,7 +136,7 @@ namespace FLoan.System.Web.API.Migrations
                 columns: table => new
                 {
                     TransactionId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CurrentBalance = table.Column<decimal>(nullable: false),
                     AmountPaid = table.Column<decimal>(nullable: false),
                     DateTimeCreated = table.Column<DateTime>(nullable: false),
