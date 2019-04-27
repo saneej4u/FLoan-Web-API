@@ -24,6 +24,14 @@ namespace FLoan.System.Web.API.Data
             return agreement;
         }
 
+        public async Task<Agreement> Update(Agreement agreement)
+        {
+            this._context.Agreements.Update(agreement);
+            await this._context.SaveChangesAsync();
+
+            return agreement;
+        }
+
         public async Task<List<Agreement>> GetAll()
         {
             return await this._context.Agreements.ToListAsync(); ;

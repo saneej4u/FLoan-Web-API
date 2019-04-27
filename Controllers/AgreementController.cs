@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FLoan.System.Web.API.Controllers
 {
-    [Route("api/agreement")]
+    [Route("api/agreements")]
     public class AgreementController : Controller
     {
 
@@ -67,6 +67,31 @@ namespace FLoan.System.Web.API.Controllers
             var agreementFromRep = await _agreementRepo.Create(agreement);
 
             var agreementDto = _mapper.Map<AgreementForCreationDto>(agreement);
+
+            return Ok(agreementDto);
+        }
+
+        [HttpPost("{Id}/activate")]
+        public async Task<IActionResult> ActivateAgreement(int Id, [FromBody]ActivateAgreementDto activateAgreementDto)
+        {
+            var agreementFromRepo = await this._agreementRepo.GetSingle(Id);
+
+            if (agreementFromRepo == null)
+            {
+                return BadRequest();
+            }
+
+            if (await this._customerRepo.GetSingle(activateAgreementDto.CustomerId) == null)
+            {
+                return BadRequest();
+            }
+
+            agreementFromRepo.Status = 2;
+            agreementFromRepo.IsLoanActivated = true;
+
+            await _agreementRepo.Update(agreementFromRepo);
+
+            var agreementDto = _mapper.Map<AgreementForCreationDto>(agreementFromRepo);
 
             return Ok(agreementDto);
         }

@@ -14,6 +14,8 @@ namespace FLoan.System.Web.API.Data
         Task<Agreement> Create(Agreement agreement);
 
         Task<bool> IsAgreementExist(int agreementId);
+
+        Task<Agreement> Update(Agreement agreement);
     }
 
 }

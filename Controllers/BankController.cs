@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FLoan.System.Web.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/banks")]
     public class BankController : Controller
     {
 
