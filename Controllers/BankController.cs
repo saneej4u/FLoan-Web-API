@@ -29,7 +29,7 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<List<BankDto>>> Get()
         {
             var banks = await this._bankRepo.GetAll();
 
@@ -40,7 +40,7 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<Bank>> Get(int id)
         {
             var bank = await this._bankRepo.GetSingle(id);
 
@@ -56,7 +56,7 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]BankForCreationDto bankForCreationDto)
+        public async Task<ActionResult<BankDto>> Post([FromBody]BankForCreationDto bankForCreationDto)
         {
             if (await this._customerRepo.GetSingle(bankForCreationDto.CustomerId) == null)
             {

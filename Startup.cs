@@ -36,6 +36,8 @@ namespace FLoan.System.Web.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
 
+            services.AddSwaggerDocument();
+
             services.AddCors();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
@@ -58,6 +60,9 @@ namespace FLoan.System.Web.API
 
             app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseSwagger();
+            app.UseSwaggerUi3();
 
             app.UseMvc();
         }

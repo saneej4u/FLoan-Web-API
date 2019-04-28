@@ -27,19 +27,11 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpGet()]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<List<CustomerDto>>> Get()
         {
             var customersFromRepo = await this._customerRepo.GetAll();
 
-            var customerDtos = new List<CustomerDto>();
-
-            foreach (Customer customer in customersFromRepo)
-            {
-
-                var customerDto = _mapper.Map<CustomerDto>(customer);
-
-                customerDtos.Add(customerDto);
-            }
+            var customerDtos = _mapper.Map<List<CustomerDto>>(customersFromRepo);
 
             return Ok(customerDtos);
 
@@ -47,7 +39,7 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> Get(int Id)
+        public async Task<ActionResult<CustomerDto>> Get(int Id)
         {
             var customer = await this._customerRepo.GetSingle(Id);
 
@@ -63,7 +55,7 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CustomerForCreationDto customerForCreationDto)
+        public async Task<ActionResult<CustomerDto>> Post([FromBody] CustomerForCreationDto customerForCreationDto)
         {
             if (await this._customerRepo.IsCustomerExist(customerForCreationDto.Email))
             {
@@ -82,11 +74,12 @@ namespace FLoan.System.Web.API.Controllers
 
             };
 
-            // var customer = _mapper.Map<Customer>(customerForCreationDto);
 
             Customer model = await _customerRepo.Create(customer);
 
-            return Ok(customerForCreationDto);
+            var customerDto = _mapper.Map<CustomerDto>(model);
+
+            return Ok(customerDto);
         }
 
 
