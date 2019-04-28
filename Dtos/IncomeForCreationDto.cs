@@ -3,9 +3,6 @@ namespace FLoan.System.Web.API.Dtos
 {
     public class IncomeForCreationDto
     {
-        public IncomeForCreationDto()
-        {
-        }
 
         public decimal MonthlySalary { get; set; }
         public decimal OtherIncome { get; set; }

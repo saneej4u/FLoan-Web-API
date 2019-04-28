@@ -5,10 +5,6 @@ namespace FLoan.System.Web.API.Dtos
 {
     public class AddressForCreationDto
     {
-        public AddressForCreationDto()
-        {
-        }
-
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string Street { get; set; }
