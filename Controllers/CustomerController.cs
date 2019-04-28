@@ -7,6 +7,7 @@ using FLoan.System.Web.API.Data;
 using FLoan.System.Web.API.DTO;
 using FLoan.System.Web.API.Dtos;
 using FLoan.System.Web.API.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,22 +40,26 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<CustomerDto>> Get(int Id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CustomerDto>> GetById(int Id)
         {
-            var customer = await this._customerRepo.GetSingle(Id);
+            var customerFromRepo = await this._customerRepo.GetSingle(Id);
 
-            if (customer == null)
+            if (customerFromRepo == null)
             {
                 return NotFound();
             }
 
-            var model = _mapper.Map<CustomerDto>(customer);
+            var model = _mapper.Map<CustomerDto>(customerFromRepo);
 
             return Ok(model);
         }
 
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CustomerDto>> Post([FromBody] CustomerForCreationDto customerForCreationDto)
         {
             if (await this._customerRepo.IsCustomerExist(customerForCreationDto.Email))
@@ -79,7 +84,8 @@ namespace FLoan.System.Web.API.Controllers
 
             var customerDto = _mapper.Map<CustomerDto>(model);
 
-            return Ok(customerDto);
+            return CreatedAtAction(nameof(GetById), new { id = customerDto.Id }, customerDto);
+
         }
 
 
