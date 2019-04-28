@@ -71,6 +71,31 @@ namespace FLoan.System.Web.API.Controllers
             return Ok(agreementDto);
         }
 
+        [HttpPost("{Id}/apply")]
+        public async Task<IActionResult> ApplyAgreement(int Id, [FromBody]ActivateAgreementDto activateAgreementDto)
+        {
+            var agreementFromRepo = await this._agreementRepo.GetSingle(Id);
+
+            if (agreementFromRepo == null)
+            {
+                return BadRequest();
+            }
+
+            if (await this._customerRepo.GetSingle(activateAgreementDto.CustomerId) == null)
+            {
+                return BadRequest();
+            }
+
+            agreementFromRepo.Status = 2;
+            agreementFromRepo.IsLoanActivated = false;
+
+            await _agreementRepo.Update(agreementFromRepo);
+
+            var agreementDto = _mapper.Map<AgreementForCreationDto>(agreementFromRepo);
+
+            return Ok(agreementDto);
+        }
+
         [HttpPost("{Id}/activate")]
         public async Task<IActionResult> ActivateAgreement(int Id, [FromBody]ActivateAgreementDto activateAgreementDto)
         {
@@ -86,7 +111,7 @@ namespace FLoan.System.Web.API.Controllers
                 return BadRequest();
             }
 
-            agreementFromRepo.Status = 2;
+            agreementFromRepo.Status = 3;
             agreementFromRepo.IsLoanActivated = true;
 
             await _agreementRepo.Update(agreementFromRepo);
