@@ -28,23 +28,37 @@ namespace FLoan.System.Web.API.Controllers
 
 
         [HttpGet()]
-        public async Task<ActionResult<List<CustomerDto>>> Get()
+        public async Task<ActionResult<List<CustomerDto>>> Get([FromQuery] string email)
         {
-            var customersFromRepo = await this._customerRepo.GetAll();
+            var customerFromRepo = new List<Customer>();
 
-            var customerDtos = _mapper.Map<List<CustomerDto>>(customersFromRepo);
+            if (!string.IsNullOrEmpty(email))
+            {
+                var customerFromRepoEmail = await this._customerRepo.GetCustomerByEmail(email);
+
+                customerFromRepo.Add(customerFromRepoEmail);
+
+            }
+            else
+            {
+                var customersFromRepoItem = await this._customerRepo.GetAll();
+
+                customerFromRepo.AddRange(customersFromRepoItem);
+            }
+
+            var customerDtos = _mapper.Map<List<CustomerDto>>(customerFromRepo);
 
             return Ok(customerDtos);
 
         }
 
 
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CustomerDto>> GetById(int Id)
+        public async Task<ActionResult<CustomerDto>> GetById(int id)
         {
-            var customerFromRepo = await this._customerRepo.GetSingle(Id);
+            var customerFromRepo = await this._customerRepo.GetSingle(id);
 
             if (customerFromRepo == null)
             {

@@ -39,9 +39,9 @@ namespace FLoan.System.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int Id)
+        public async Task<IActionResult> Get(int id)
         {
-            var address = await this._addressRepo.GetSingle(Id);
+            var address = await this._addressRepo.GetSingle(id);
 
             if (address == null)
             {
