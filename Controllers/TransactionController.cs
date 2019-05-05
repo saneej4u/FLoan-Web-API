@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FLoan.System.Web.API.Controllers
 {
-    [Route("api/transaction")]
+    [Route("api/transactions")]
     public class TransactionController : Controller
     {
 
@@ -28,11 +28,19 @@ namespace FLoan.System.Web.API.Controllers
         }
 
 
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        [HttpGet()]
+        public async Task<ActionResult<List<TransactionDto>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var resultFromRepo = new List<Transaction>();
+
+            var customersFromRepoItem = await this._transactionRepo.GetAll();
+
+            resultFromRepo.AddRange(customersFromRepoItem);
+
+            var customerDtos = _mapper.Map<List<TransactionDto>>(resultFromRepo);
+
+            return Ok(customerDtos);
         }
 
         // GET api/values/5

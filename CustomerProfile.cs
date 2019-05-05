@@ -10,6 +10,7 @@ namespace FLoan.System.Web.API
         public CustomerProfile()
         {
             CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<Agreement, AgreementDto>().ReverseMap();
         }
     }
 }

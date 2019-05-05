@@ -60,13 +60,13 @@ namespace FLoan.System.Web.API.Controllers
             var agreement = new Agreement
             {
                 IsLoanActivated = false,
-                LoanAdvance = agreementForCreationDto.LoanAdvance,
+                LoanAdvance = agreementForCreationDto.LoanAmount,
                 LoanAmount = agreementForCreationDto.LoanAmount,
-                LoanBalance = agreementForCreationDto.LoanBalance,
-                LoanStartDate = agreementForCreationDto.LoanStartDate,
+                LoanBalance = agreementForCreationDto.LoanAmount,
+                LoanStartDate = DateTime.Today,
                 LoanTerm = agreementForCreationDto.LoanTerm,
-                NextPaymentDate = agreementForCreationDto.NextPaymentDate,
-                PinNumber = agreementForCreationDto.PinNumber,
+                NextPaymentDate = DateTime.Today.AddDays(28),
+                PinNumber = 1234,
                 Status = 1,
                 CustomerId = agreementForCreationDto.CustomerId
 
@@ -74,7 +74,7 @@ namespace FLoan.System.Web.API.Controllers
 
             var agreementFromRep = await _agreementRepo.Create(agreement);
 
-            var agreementDto = _mapper.Map<AgreementForCreationDto>(agreement);
+            var agreementDto = _mapper.Map<AgreementDto>(agreement);
 
             return Ok(agreementDto);
         }
@@ -99,7 +99,7 @@ namespace FLoan.System.Web.API.Controllers
 
             await _agreementRepo.Update(agreementFromRepo);
 
-            var agreementDto = _mapper.Map<AgreementForCreationDto>(agreementFromRepo);
+            var agreementDto = _mapper.Map<AgreementDto>(agreementFromRepo);
 
             return Ok(agreementDto);
         }
@@ -138,7 +138,7 @@ namespace FLoan.System.Web.API.Controllers
 
             // End 
 
-            var agreementDto = _mapper.Map<AgreementForCreationDto>(agreementFromRepo);
+            var agreementDto = _mapper.Map<AgreementDto>(agreementFromRepo);
 
             return Ok(agreementDto);
         }

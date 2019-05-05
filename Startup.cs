@@ -44,6 +44,7 @@ namespace FLoan.System.Web.API
             services.AddScoped<IBankRepository, BankRepository>();
             services.AddScoped<IIncomeRepository, IncomeRepository>();
             services.AddScoped<IAgreementRepository, AgreementRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
