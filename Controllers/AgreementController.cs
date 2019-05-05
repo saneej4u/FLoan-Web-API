@@ -18,12 +18,14 @@ namespace FLoan.System.Web.API.Controllers
 
         private readonly IAgreementRepository _agreementRepo;
         private readonly ICustomerRepository _customerRepo;
+        private readonly ITransactionRepository _transactionRepo;
         private readonly IMapper _mapper;
 
-        public AgreementController(IAgreementRepository repo, ICustomerRepository customerRepo, IMapper mapper)
+        public AgreementController(IAgreementRepository repo, ICustomerRepository customerRepo, ITransactionRepository transactionRepo, IMapper mapper)
         {
             this._agreementRepo = repo;
             this._customerRepo = customerRepo;
+            this._transactionRepo = transactionRepo;
             this._mapper = mapper;
         }
 
@@ -41,6 +43,12 @@ namespace FLoan.System.Web.API.Controllers
             return "value";
         }
 
+        [HttpGet("{id}/transactions")]
+        public string GetTransactions(int id)
+        {
+            return "value";
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]AgreementForCreationDto agreementForCreationDto)
         {
@@ -51,7 +59,7 @@ namespace FLoan.System.Web.API.Controllers
 
             var agreement = new Agreement
             {
-                IsLoanActivated = agreementForCreationDto.IsLoanActivated,
+                IsLoanActivated = false,
                 LoanAdvance = agreementForCreationDto.LoanAdvance,
                 LoanAmount = agreementForCreationDto.LoanAmount,
                 LoanBalance = agreementForCreationDto.LoanBalance,
@@ -59,7 +67,7 @@ namespace FLoan.System.Web.API.Controllers
                 LoanTerm = agreementForCreationDto.LoanTerm,
                 NextPaymentDate = agreementForCreationDto.NextPaymentDate,
                 PinNumber = agreementForCreationDto.PinNumber,
-                Status = agreementForCreationDto.Status,
+                Status = 1,
                 CustomerId = agreementForCreationDto.CustomerId
 
             };
@@ -71,10 +79,10 @@ namespace FLoan.System.Web.API.Controllers
             return Ok(agreementDto);
         }
 
-        [HttpPost("{Id}/apply")]
-        public async Task<IActionResult> ApplyAgreement(int Id, [FromBody]ActivateAgreementDto activateAgreementDto)
+        [HttpPost("{id}/apply")]
+        public async Task<IActionResult> ApplyAgreement(int id, [FromBody]ActivateAgreementDto activateAgreementDto)
         {
-            var agreementFromRepo = await this._agreementRepo.GetSingle(Id);
+            var agreementFromRepo = await this._agreementRepo.GetSingle(id);
 
             if (agreementFromRepo == null)
             {
@@ -96,10 +104,10 @@ namespace FLoan.System.Web.API.Controllers
             return Ok(agreementDto);
         }
 
-        [HttpPost("{Id}/activate")]
-        public async Task<IActionResult> ActivateAgreement(int Id, [FromBody]ActivateAgreementDto activateAgreementDto)
+        [HttpPost("{id}/activate")]
+        public async Task<IActionResult> ActivateAgreement(int id, [FromBody]ActivateAgreementDto activateAgreementDto)
         {
-            var agreementFromRepo = await this._agreementRepo.GetSingle(Id);
+            var agreementFromRepo = await this._agreementRepo.GetSingle(id);
 
             if (agreementFromRepo == null)
             {
@@ -115,6 +123,20 @@ namespace FLoan.System.Web.API.Controllers
             agreementFromRepo.IsLoanActivated = true;
 
             await _agreementRepo.Update(agreementFromRepo);
+
+            //Create transaction 
+
+
+            var tr = new Transaction
+            {
+                AgreementId = id,
+                AmountPaid = agreementFromRepo.LoanAmount
+            };
+
+            var result = await _transactionRepo.Create(tr);
+
+
+            // End 
 
             var agreementDto = _mapper.Map<AgreementForCreationDto>(agreementFromRepo);
 

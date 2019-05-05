@@ -30,5 +30,6 @@
     <Compile Remove="Migrations\20190415183817_SecondB.cs" />
     <Compile Remove="Migrations\20190427110706_azureMigration.cs" />
     <Compile Remove="Migrations\20190427110706_azureMigration.Designer.cs" />
+    <Compile Remove="Controllers\PaymentController.cs" />
   </ItemGroup>
 </Project>
