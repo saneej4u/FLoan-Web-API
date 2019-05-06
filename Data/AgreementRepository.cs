@@ -52,7 +52,7 @@ namespace FLoan.System.Web.API.Data
         private Agreement CalculateRepayment(Agreement agreement)
         {
             decimal loanTerm = agreement.LoanTerm;
-            var loanAMount = agreement.LoanTerm;
+            var loanAMount = agreement.LoanAmount;
 
             decimal adminFee = (loanAMount * 5) / 100;
 
