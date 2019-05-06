@@ -27,6 +27,7 @@ namespace FLoan.System.Web.API.Models
         public decimal MonthlyRepayment { get; set; }
         public decimal InterestPayable { get; set; }
         public decimal AdminFeePayable { get; set; }
+        public decimal LeftToPay { get; set; }
 
         public List<Transaction> Transactions { get; set; }
         public bool IsLoanActivated { get; set; }

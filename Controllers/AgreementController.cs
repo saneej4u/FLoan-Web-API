@@ -96,6 +96,7 @@ namespace FLoan.System.Web.API.Controllers
 
             agreementFromRepo.Status = 2;
             agreementFromRepo.IsLoanActivated = false;
+            agreementFromRepo.LeftToPay = agreementFromRepo.LoanAmount;
 
             await _agreementRepo.Update(agreementFromRepo);
 
@@ -121,6 +122,7 @@ namespace FLoan.System.Web.API.Controllers
 
             agreementFromRepo.Status = 3;
             agreementFromRepo.IsLoanActivated = true;
+            agreementFromRepo.LeftToPay = agreementFromRepo.LoanAmount;
 
             await _agreementRepo.Update(agreementFromRepo);
 
