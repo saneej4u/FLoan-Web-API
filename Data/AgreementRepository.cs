@@ -18,10 +18,12 @@ namespace FLoan.System.Web.API.Data
 
         public async Task<Agreement> Create(Agreement agreement)
         {
-            await this._context.Agreements.AddAsync(agreement);
+            var agreementAfterCalculation = CalculateRepayment(agreement);
+
+            await this._context.Agreements.AddAsync(agreementAfterCalculation);
             await this._context.SaveChangesAsync();
 
-            return agreement;
+            return agreementAfterCalculation;
         }
 
         public async Task<Agreement> Update(Agreement agreement)
@@ -45,6 +47,29 @@ namespace FLoan.System.Web.API.Data
         public Task<bool> IsAgreementExist(int agreementId)
         {
             throw new NotImplementedException();
+        }
+
+        private Agreement CalculateRepayment(Agreement agreement)
+        {
+            decimal loanTerm = agreement.LoanTerm;
+            var loanAMount = agreement.LoanTerm;
+
+            decimal adminFee = (loanAMount * 5) / 100;
+
+            decimal totalLmount = (loanAMount + adminFee);
+
+            decimal totalToRepay = Math.Round(Convert.ToDecimal(((loanTerm * loanAMount) / 100) + totalLmount), 2);
+            decimal monthlyRepayment = Math.Round(totalToRepay / Convert.ToInt16(loanTerm), 2);
+
+            decimal interest = totalToRepay - Convert.ToDecimal(loanAMount);
+
+            agreement.TotalRepayable = totalToRepay;
+            agreement.MonthlyRepayment = monthlyRepayment;
+            agreement.InterestPayable = interest; ;
+            agreement.AdminFeePayable = adminFee; ;
+
+            return agreement;
+
         }
     }
 }
