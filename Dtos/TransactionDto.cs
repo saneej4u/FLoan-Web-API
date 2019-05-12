@@ -11,5 +11,6 @@ namespace FLoan.System.Web.API.Dtos
 
         public int AgreementId { get; set; }
 
+
     }
 }

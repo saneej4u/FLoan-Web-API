@@ -46,6 +46,7 @@ namespace FLoan.System.Web.API.Controllers
         [HttpGet("{id}/transactions")]
         public async Task<ActionResult<TransactionDto>> GetTransactions(int id)
         {
+
             var transactions = await this._transactionRepo.GetAll();
 
             var transactionFromRepo = transactions.Where(x => x.AgreementId == id);
@@ -55,7 +56,7 @@ namespace FLoan.System.Web.API.Controllers
                 return NotFound();
             }
 
-            var model = _mapper.Map<TransactionDto>(transactionFromRepo);
+            var model = _mapper.Map<List<TransactionDto>>(transactionFromRepo);
 
             return Ok(model);
         }
