@@ -44,9 +44,20 @@ namespace FLoan.System.Web.API.Controllers
         }
 
         [HttpGet("{id}/transactions")]
-        public string GetTransactions(int id)
+        public async Task<ActionResult<TransactionDto>> GetTransactions(int id)
         {
-            return "value";
+            var transactions = await this._transactionRepo.GetAll();
+
+            var transactionFromRepo = transactions.Where(x => x.AgreementId == id);
+
+            if (transactionFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var model = _mapper.Map<TransactionDto>(transactionFromRepo);
+
+            return Ok(model);
         }
 
         [HttpPost]
@@ -139,6 +150,44 @@ namespace FLoan.System.Web.API.Controllers
 
 
             // End 
+
+            var agreementDto = _mapper.Map<AgreementDto>(agreementFromRepo);
+
+            return Ok(agreementDto);
+        }
+
+
+        [HttpPost("{id}/payment")]
+        public async Task<IActionResult> MakePayment(int id, [FromBody]MakePaymentDto makepaymentDto)
+        {
+            var agreementFromRepo = await this._agreementRepo.GetSingle(id);
+
+            if (agreementFromRepo == null)
+            {
+                return BadRequest();
+            }
+
+            if (await this._customerRepo.GetSingle(makepaymentDto.CustomerId) == null)
+            {
+                return BadRequest();
+            }
+
+
+            agreementFromRepo.LeftToPay = agreementFromRepo.LeftToPay - makepaymentDto.AmountPaid;
+
+            await _agreementRepo.Update(agreementFromRepo);
+
+            //Create transaction 
+
+
+            var tr = new Transaction
+            {
+                AgreementId = id,
+                AmountPaid = makepaymentDto.AmountPaid
+            };
+
+            var result = await _transactionRepo.Create(tr);
+
 
             var agreementDto = _mapper.Map<AgreementDto>(agreementFromRepo);
 
