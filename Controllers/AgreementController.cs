@@ -143,7 +143,8 @@ namespace FLoan.System.Web.API.Controllers
             var tr = new Transaction
             {
                 AgreementId = id,
-                AmountPaid = agreementFromRepo.LoanAmount
+                AmountPaid = agreementFromRepo.LoanAmount,
+                TransactionTypeId = 1
             };
 
             var result = await _transactionRepo.Create(tr);
@@ -183,7 +184,8 @@ namespace FLoan.System.Web.API.Controllers
             var tr = new Transaction
             {
                 AgreementId = id,
-                AmountPaid = makepaymentDto.AmountPaid
+                AmountPaid = makepaymentDto.AmountPaid,
+                TransactionTypeId = 2
             };
 
             var result = await _transactionRepo.Create(tr);

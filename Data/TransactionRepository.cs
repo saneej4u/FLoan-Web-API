@@ -33,7 +33,15 @@ namespace FLoan.System.Web.API.Data
                 }
             }
 
-            transaction.CurrentBalance = currentBalance + transaction.AmountPaid;
+            if (transaction.TransactionTypeId == 1)
+            {
+                transaction.CurrentBalance = currentBalance + transaction.AmountPaid;
+            }
+            else
+            {
+                transaction.CurrentBalance = currentBalance - transaction.AmountPaid;
+            }
+
 
 
             await this._context.Transactions.AddAsync(transaction);
